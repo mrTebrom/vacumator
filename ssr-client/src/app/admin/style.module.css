@@ -1,0 +1,18 @@
+.page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  width: 400px;
+  border: 2px solid black;
+  padding: 30px 20px;
+  border-radius: 16px;
+}
