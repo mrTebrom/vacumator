@@ -1,16 +1,27 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Alert, Button, Form, Input, Modal, Typography } from "antd";
-import { UserOutlined, ShoppingOutlined, SearchOutlined, MenuOutlined, InstagramOutlined, WhatsAppOutlined, PhoneOutlined, InfoOutlined, PercentageOutlined, CarOutlined } from "@ant-design/icons";
-import Drawer from "./drawer";
-import Link from "next/link";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import { Alert, Button, Form, Input, Modal, Typography } from 'antd';
+import {
+  UserOutlined,
+  ShoppingOutlined,
+  SearchOutlined,
+  MenuOutlined,
+  InstagramOutlined,
+  WhatsAppOutlined,
+  PhoneOutlined,
+  InfoOutlined,
+  PercentageOutlined,
+  CarOutlined,
+} from '@ant-design/icons';
+import Drawer from './drawer';
+import Link from 'next/link';
+import axios from 'axios';
 const { Paragraph } = Typography;
-import "./header.css";
-import { useAppDispatch } from "@/lib/store.hook";
-import { setToken } from "@/lib/slice/token.slice";
-import Image from "next/image";
+import './header.css';
+import { useAppDispatch } from '@/lib/store.hook';
+import { setToken } from '@/lib/slice/token.slice';
+import Image from 'next/image';
 
 interface IForm {
   email: string;
@@ -23,7 +34,7 @@ const Header = () => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [auth, setAuth] = useState(false);
   const [state, setState] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [nav, setNav] = useState(false);
 
   const toggleSearchVisibility = () => setSearchVisible(!searchVisible);
@@ -34,16 +45,19 @@ const Header = () => {
 
   const handleApiRequest = async (endpoint: string, values: IForm) => {
     try {
-      const result = await axios.post(`http://localhost:5000/api/auth/${endpoint}`, values);
+      const result = await axios.post(
+        `http://localhost:5000/api/auth/${endpoint}`,
+        values,
+      );
       dispatch(setToken(result.data));
-      localStorage.setItem("access_token", result.data);
+      localStorage.setItem('access_token', result.data);
     } catch (error: any) {
       setError(error.response.data.message);
     }
   };
 
   const onFinish = (values: IForm) => {
-    const endpoint = state ? "login" : "register";
+    const endpoint = state ? 'login' : 'register';
     handleApiRequest(endpoint, values);
   };
 
@@ -52,7 +66,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    dispatch(setToken(localStorage.getItem("access_token") as string));
+    dispatch(setToken(localStorage.getItem('access_token') as string));
   }, [dispatch]);
 
   const [mobAuth, setMobAuth] = useState(false);
@@ -82,7 +96,7 @@ const Header = () => {
           <MenuOutlined />
         </button>
       </div>
-      <nav className="navbar">
+      {/* <nav className="navbar">
         <ul>
           <li>
             <Link href="/admin">Каталог</Link>
@@ -94,7 +108,7 @@ const Header = () => {
             <Link href="/">Каталог</Link>
           </li>
         </ul>
-      </nav>
+      </nav> */}
       <Modal
         open={mobAuth}
         onCancel={() => setMobAuth(false)}
@@ -103,7 +117,7 @@ const Header = () => {
         <Form
           layout="vertical"
           onFinish={onFinish}
-          name={state ? "login-mob" : "register-mob"}
+          name={state ? 'login-mob' : 'register-mob'}
         >
           {error.length > 3 ? (
             <Alert
@@ -116,61 +130,77 @@ const Header = () => {
             name="email"
             label="Почта"
             rules={[
-              { type: "email", message: "" },
-              { required: true, message: "" },
+              { type: 'email', message: '' },
+              { required: true, message: '' },
             ]}
           >
             <Input
-              style={{ width: "100%", background: "#D9D9D9", borderRadius: 51.5 }}
+              style={{
+                width: '100%',
+                background: '#D9D9D9',
+                borderRadius: 51.5,
+              }}
               size="large"
             />
           </Form.Item>
           <Form.Item
             name="password"
             label="Пароль"
-            rules={[{ required: true, message: "" }]}
+            rules={[{ required: true, message: '' }]}
           >
             <Input.Password
               size="large"
-              style={{ background: "#D9D9D9", width: "100%", borderRadius: 51.5 }}
+              style={{
+                background: '#D9D9D9',
+                width: '100%',
+                borderRadius: 51.5,
+              }}
             />
           </Form.Item>
           {!state ? (
             <Form.Item
               name="passwordTwo"
               label="Потвердите пароль"
-              rules={[{ required: true, message: "" }]}
+              rules={[{ required: true, message: '' }]}
             >
               <Input.Password
                 size="large"
-                style={{ background: "#D9D9D9", width: 258, borderRadius: 51.5 }}
+                style={{
+                  background: '#D9D9D9',
+                  width: 258,
+                  borderRadius: 51.5,
+                }}
               />
             </Form.Item>
           ) : null}
-          <Paragraph style={{ textAlign: "end", color: "#747474" }}>
+          <Paragraph style={{ textAlign: 'end', color: '#747474' }}>
             <Link href="/forgot">Забыли пароль ?</Link>
           </Paragraph>
           {!state ? <hr /> : null}
           <Form.Item>
             <Button
               size="large"
-              style={{ background: "#D9D9D9", width: "100%", borderRadius: 51.5 }}
+              style={{
+                background: '#D9D9D9',
+                width: '100%',
+                borderRadius: 51.5,
+              }}
               htmlType="submit"
             >
-              {state ? "Войти" : "Зарегистрироватся"}
+              {state ? 'Войти' : 'Зарегистрироватся'}
             </Button>
           </Form.Item>
           {state ? <hr /> : null}
           {state ? (
             <Paragraph
-              style={{ textAlign: "center", cursor: "pointer", fontSize: 12 }}
+              style={{ textAlign: 'center', cursor: 'pointer', fontSize: 12 }}
               onClick={onAuth}
             >
               Зарегистрироватся
             </Paragraph>
           ) : (
             <Paragraph
-              style={{ textAlign: "center", cursor: "pointer", fontSize: 12 }}
+              style={{ textAlign: 'center', cursor: 'pointer', fontSize: 12 }}
               onClick={onReg}
             >
               Войти
@@ -185,11 +215,11 @@ const Header = () => {
             type="text"
           ></Button>
         </Link>
-        <div className={`auth ${auth ? "active" : null}`}>
+        <div className={`auth ${auth ? 'active' : null}`}>
           <Form
             layout="vertical"
             onFinish={onFinish}
-            name={state ? "login" : "register"}
+            name={state ? 'login' : 'register'}
           >
             {error.length > 3 ? (
               <Alert
@@ -202,61 +232,77 @@ const Header = () => {
               name="email"
               label="Почта"
               rules={[
-                { type: "email", message: "" },
-                { required: true, message: "" },
+                { type: 'email', message: '' },
+                { required: true, message: '' },
               ]}
             >
               <Input
-                style={{ width: 258, background: "#D9D9D9", borderRadius: 51.5 }}
+                style={{
+                  width: 258,
+                  background: '#D9D9D9',
+                  borderRadius: 51.5,
+                }}
                 size="large"
               />
             </Form.Item>
             <Form.Item
               name="password"
               label="Пароль"
-              rules={[{ required: true, message: "" }]}
+              rules={[{ required: true, message: '' }]}
             >
               <Input.Password
                 size="large"
-                style={{ background: "#D9D9D9", width: 258, borderRadius: 51.5 }}
+                style={{
+                  background: '#D9D9D9',
+                  width: 258,
+                  borderRadius: 51.5,
+                }}
               />
             </Form.Item>
             {!state ? (
               <Form.Item
                 name="passwordTwo"
                 label="Потвердите пароль"
-                rules={[{ required: true, message: "" }]}
+                rules={[{ required: true, message: '' }]}
               >
                 <Input.Password
                   size="large"
-                  style={{ background: "#D9D9D9", width: 258, borderRadius: 51.5 }}
+                  style={{
+                    background: '#D9D9D9',
+                    width: 258,
+                    borderRadius: 51.5,
+                  }}
                 />
               </Form.Item>
             ) : null}
-            <Paragraph style={{ textAlign: "end", color: "#747474" }}>
+            <Paragraph style={{ textAlign: 'end', color: '#747474' }}>
               <Link href="/forgot">Забыли пароль ?</Link>
             </Paragraph>
             {!state ? <hr /> : null}
             <Form.Item>
               <Button
                 size="large"
-                style={{ background: "#D9D9D9", width: "100%", borderRadius: 51.5 }}
+                style={{
+                  background: '#D9D9D9',
+                  width: '100%',
+                  borderRadius: 51.5,
+                }}
                 htmlType="submit"
               >
-                {state ? "Войти" : "Зарегистрироватся"}
+                {state ? 'Войти' : 'Зарегистрироватся'}
               </Button>
             </Form.Item>
             {state ? <hr /> : null}
             {state ? (
               <Paragraph
-                style={{ textAlign: "center", cursor: "pointer", fontSize: 12 }}
+                style={{ textAlign: 'center', cursor: 'pointer', fontSize: 12 }}
                 onClick={onAuth}
               >
                 Зарегистрироватся
               </Paragraph>
             ) : (
               <Paragraph
-                style={{ textAlign: "center", cursor: "pointer", fontSize: 12 }}
+                style={{ textAlign: 'center', cursor: 'pointer', fontSize: 12 }}
                 onClick={onReg}
               >
                 Войти
@@ -265,7 +311,7 @@ const Header = () => {
           </Form>
         </div>
         <div
-          className={`auth-bg ${auth ? "active" : null}`}
+          className={`auth-bg ${auth ? 'active' : null}`}
           onClick={hideAuth}
         ></div>
       </div>
